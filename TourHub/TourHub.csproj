@@ -177,10 +177,17 @@
     <Compile Include="Migrations\201908011629446_InitialModel.Designer.cs">
       <DependentUpon>201908011629446_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908011826305_AddedTourTable.cs" />
+    <Compile Include="Migrations\201908011826305_AddedTourTable.Designer.cs">
+      <DependentUpon>201908011826305_AddedTourTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Tour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -260,6 +267,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908011629446_InitialModel.resx">
       <DependentUpon>201908011629446_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908011826305_AddedTourTable.resx">
+      <DependentUpon>201908011826305_AddedTourTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
