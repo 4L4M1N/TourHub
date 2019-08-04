@@ -31,13 +31,15 @@ namespace TourHub.Controllers
         [HttpPost]
         public ActionResult Create(TourFormViewModel tourFormViewModel)
         {
-            var travellerId = User.Identity.GetUserId();
-            var traveller = _dbContext.Users.Single(u => u.Id == travellerId);
-            var genre = _dbContext.Genres.Single(g => g.Id == tourFormViewModel.Genre);
+            if (!ModelState.IsValid)
+            {
+                tourFormViewModel.Genres = _dbContext.Genres.ToList();
+                return View("Create", tourFormViewModel);
+            }
             var tour = new Tour
             {
                 TravellerID = User.Identity.GetUserId(),
-                DateTime = tourFormViewModel.DateTime,
+                DateTime = tourFormViewModel.GetDateTime(),
                 GenreID = tourFormViewModel.Genre,
                 Cost = tourFormViewModel.Cost,
                 Place = tourFormViewModel.Place
