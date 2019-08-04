@@ -3,7 +3,6 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Create</h2>
 <div class="row">
     <div class="col-md-8">
         
@@ -14,8 +13,8 @@
                 Featured
             </div>
             <div class="card-body">
-                <form>
-
+                @using (Html.BeginForm("Create", "Tour"))
+                {
                     <div class="form-group">
                         @Html.LabelFor(m => m.Place)
                         @Html.TextBoxFor(m => m.Place, new { @class = "form-control" })
@@ -38,10 +37,10 @@
 
                     <div class="form-group">
                         @Html.LabelFor(m => m.Genre)
-                        @Html.DropDownListFor(m => m.Genre, new SelectList(Model.Genres, "id", "name"), " ", new { @class = "form-control"})
+                        @Html.DropDownListFor(m => m.Genre, new SelectList(Model.Genres, "id", "name"), " ", new { @class = "form-control" })
                     </div>
                     <button type="submit" class="btn btn-primary">Create</button>
-                </form>
+                }
             </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,7 @@ namespace TourHub.Controllers
         {
             _dbContext = new ApplicationDbContext();
         }
+        [Authorize]
         public ActionResult Create()
         {
             var viewModel = new TourFormViewModel
@@ -25,5 +27,25 @@ namespace TourHub.Controllers
 
             return View(viewModel);
         }
+        [Authorize]
+        [HttpPost]
+        public ActionResult Create(TourFormViewModel tourFormViewModel)
+        {
+            var travellerId = User.Identity.GetUserId();
+            var traveller = _dbContext.Users.Single(u => u.Id == travellerId);
+            var genre = _dbContext.Genres.Single(g => g.Id == tourFormViewModel.Genre);
+            var tour = new Tour
+            {
+                TravellerID = User.Identity.GetUserId(),
+                DateTime = tourFormViewModel.DateTime,
+                GenreID = tourFormViewModel.Genre,
+                Cost = tourFormViewModel.Cost,
+                Place = tourFormViewModel.Place
+            };
+            _dbContext.Tours.Add(tour);
+            _dbContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+        
     }
 }

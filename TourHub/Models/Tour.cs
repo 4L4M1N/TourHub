@@ -11,8 +11,10 @@ namespace TourHub.Models
       
         public int Id { get; set; }
 
-        [Required]
+        
         public ApplicationUser Traveller { get; set; }
+        [Required]
+        public string TravellerID { get; set; }
         public DateTime DateTime { get; set; }
 
         [Required]
@@ -21,8 +23,8 @@ namespace TourHub.Models
 
         [Required]
         public decimal Cost { get; set; }
-
-        [Required]
         public Genre Genre { get; set; }
+        [Required]
+        public byte GenreID { get; set; }
     }
 }
