@@ -29,6 +29,7 @@ namespace TourHub.Controllers
         }
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken] //CSRF attack
         public ActionResult Create(TourFormViewModel tourFormViewModel)
         {
             if (!ModelState.IsValid)

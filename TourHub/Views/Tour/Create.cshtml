@@ -15,6 +15,7 @@
             <div class="card-body">
                 @using (Html.BeginForm("Create", "Tour"))
                 {
+                    @Html.AntiForgeryToken() @*CSRF attack*@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Place)
                         @Html.TextBoxFor(m => m.Place, new { @class = "form-control" })
