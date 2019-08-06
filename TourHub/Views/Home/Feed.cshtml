@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TourHub.Models.Tour>
+@{
+    ViewBag.Title = "Feed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Feed</h2>
+@foreach (var t in Model)
+{
+    <li>@t.DateTime - @t.Place</li>
+}
+
