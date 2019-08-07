@@ -5,8 +5,33 @@
 }
 
 <h2>Feed</h2>
-@foreach (var t in Model)
-{
-    <li>@t.DateTime - @t.Place</li>
-}
+<ul class="tevent">
+    @foreach (var t in Model)
+    {
+        <li>
+            <div class="date">
+                <div class="month">
+                    @t.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @t.DateTime.ToString("d ")
+                </div>
+                <div class="time">
+                    @t.DateTime.ToString("HH:mm")
+                </div>
+            </div>
+            <div class="details">
+                <span class="place">
+                    @t.Place
+                </span>
+                <span class="cost">
+                    @t.Cost
+                </span>
+                <span class="genre">
+                    @t.Genre.Name
+                </span>
+            </div>
+        </li>
+    }
+</ul>
 

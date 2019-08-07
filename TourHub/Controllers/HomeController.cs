@@ -33,11 +33,15 @@ namespace TourHub.Controllers
 
             return View();
         }
+        [Authorize]
         public ActionResult Feed()
         {
+
             var feed = _applicationDbContext.Tours
                 .Include(t => t.Traveller)
+                .Include(t=> t.Genre)
                 .Where(g => g.DateTime > DateTime.Now);
+
             return View(feed);
         }
     }
