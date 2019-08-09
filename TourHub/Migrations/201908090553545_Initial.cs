@@ -3,10 +3,19 @@ namespace TourHub.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModel : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Genres",
+                c => new
+                    {
+                        Id = c.Byte(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 255),
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -31,10 +40,28 @@ namespace TourHub.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Tours",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TravellerID = c.String(nullable: false, maxLength: 128),
+                        DateTime = c.DateTime(nullable: false),
+                        Place = c.String(nullable: false, maxLength: 255),
+                        Cost = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        GenreID = c.Byte(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Genres", t => t.GenreID, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.TravellerID, cascadeDelete: true)
+                .Index(t => t.TravellerID)
+                .Index(t => t.GenreID);
+            
+            CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false, maxLength: 100),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -79,21 +106,27 @@ namespace TourHub.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Tours", "TravellerID", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Tours", "GenreID", "dbo.Genres");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Tours", new[] { "GenreID" });
+            DropIndex("dbo.Tours", new[] { "TravellerID" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.Tours");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Genres");
         }
     }
 }
