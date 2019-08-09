@@ -11,7 +11,8 @@ namespace TourHub.Models
         {
             public DbSet<Tour> Tours { get; set; }
             public DbSet<Genre> Genres { get; set; }
-            public ApplicationDbContext()
+        public DbSet<Attendence> Attendences { get; set; }
+        public ApplicationDbContext()
                 : base("TourTour", throwIfV1Schema: false)
             {
             }
@@ -20,6 +21,14 @@ namespace TourHub.Models
             {
                 return new ApplicationDbContext();
             }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Attendence>()
+                .HasRequired(a => a.Tour)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+            base.OnModelCreating(modelBuilder);
         }
+    }
  
 }
