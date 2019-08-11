@@ -23,21 +23,36 @@
             </div>
 
             <div class="media-body pl-4">
-                <h4>@t.Traveller.Name <small><i>Posted on February 19, 2016</i></small></h4>
-                <i class="fa fa-map-marker"></i> @t.Place
-                @*<span class="place">
-            @t.Place
-        </span>
-        <span class="cost">
-            @t.Cost
-        </span>
-        <span class="genre">
-            @t.Genre.Name
-        </span>*@
+                <h4>@t.Traveller.Name <small><i>Posted on February 19, 2016 <span class="badge badge-pill badge-success">@t.Genre.Name</span></i></small></h4>
+                <i class="fa fa-map-marker"></i> @t.Place <br />
 
+                Tour Type: @t.Genre.Name <br />
+                <i class="fa fa-dollar"></i> Cost: @t.Cost <br />
+                <i class="fa fa-users"></i> persons are going
+                <h5><span class="badge badge-pill badge-warning">Seats left: </span></h5>
+                <button data-tour-id="@t.Id" class="btn btn-info btn-sm pull-right js-toggle-attendence">Going ?</button>
             </div>
         </div>
     </li>
     }
 </ul>
-
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-toggle-attendence").click(function (e) {
+                var button = $(e.target);
+                $.post("/api/attendences", {tourId: button.attr("data-tour-id") })
+                    .done(function () {
+                        button
+                            .removeClass("btn-info")
+                            .addClass("btn-success")
+                            .text("Going")
+                    })
+                    .fail(function () {
+                        alert("Something failled!");
+                    });
+            });
+        });
+    </script>
+}

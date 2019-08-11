@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Http;
+using TourHub.DTOs;
 using TourHub.Models;
 
 namespace TourHub.Controllers
@@ -15,15 +16,15 @@ namespace TourHub.Controllers
             _context = new ApplicationDbContext();
         }
         [HttpPost]
-        public IHttpActionResult Attend([FromBody]int tourid)
+        public IHttpActionResult Attend(AttendenceDTO dto)
         {
             var userId = User.Identity.GetUserId();
             if (_context.Attendences.
-                Any(a => a.AttendeeId == userId && a.TourId == tourid))
+                Any(a => a.AttendeeId == userId && a.TourId == dto.TourId))
                 return BadRequest("You have already registered");
             var attendent = new Attendence
             {
-                TourId = tourid,
+                TourId = dto.TourId,
                 AttendeeId = userId
             };
             _context.Attendences.Add(attendent);
