@@ -11,6 +11,8 @@ namespace TourHub.Models
         {
             public DbSet<Tour> Tours { get; set; }
             public DbSet<Genre> Genres { get; set; }
+            public DbSet<Following> Followings { get; set; }
+
         public DbSet<Attendence> Attendences { get; set; }
         public ApplicationDbContext()
                 : base("TourTour", throwIfV1Schema: false)
@@ -27,7 +29,19 @@ namespace TourHub.Models
                 .HasRequired(a => a.Tour)
                 .WithMany()
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(f =>f.Followers)
+                .WithRequired(f => f.Followee)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(f => f.Followees)
+                .WithRequired(f => f.Follower)
+                .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
+
         }
     }
  

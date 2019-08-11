@@ -199,10 +199,15 @@
     <Compile Include="Migrations\201908091056194_attendence.Designer.cs">
       <DependentUpon>201908091056194_attendence.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908112157353_folowerAdded.cs" />
+    <Compile Include="Migrations\201908112157353_folowerAdded.Designer.cs">
+      <DependentUpon>201908112157353_folowerAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Attendence.cs" />
+    <Compile Include="Models\Following.cs" />
     <Compile Include="Models\FutureDate.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -334,6 +339,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908091056194_attendence.resx">
       <DependentUpon>201908091056194_attendence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908112157353_folowerAdded.resx">
+      <DependentUpon>201908112157353_folowerAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
