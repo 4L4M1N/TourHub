@@ -7,13 +7,13 @@ namespace TourHub.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class attendence : IMigrationMetadata
+    public sealed partial class Seatadded : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(attendence));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Seatadded));
         
         string IMigrationMetadata.Id
         {
-            get { return "201908091056194_attendence"; }
+            get { return "201908121847017_Seatadded"; }
         }
         
         string IMigrationMetadata.Source

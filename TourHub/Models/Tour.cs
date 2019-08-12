@@ -26,5 +26,8 @@ namespace TourHub.Models
         public Genre Genre { get; set; }
         [Required]
         public byte GenreID { get; set; }
+
+        [Required]
+        public int TotalSeat { get; set; }
     }
 }

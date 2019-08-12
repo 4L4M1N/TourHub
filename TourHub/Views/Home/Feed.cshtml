@@ -19,15 +19,15 @@
                 </div>
                 <div class="time">
                     @t.DateTime.ToString("HH:mm")
+                    
                 </div>
             </div>
 
             <div class="media-body pl-4">
                 <h4>@t.Traveller.Name <small><i>Posted on February 19, 2016 <span class="badge badge-pill badge-success">@t.Genre.Name</span></i></small></h4>
                 <i class="fa fa-map-marker"></i> @t.Place <br />
-
-                Tour Type: @t.Genre.Name <br />
                 <i class="fa fa-dollar"></i> Cost: @t.Cost <br />
+                <i class="fa fa-spinner"></i> Total Seats: @t.TotalSeat <br />
                 <i class="fa fa-users"></i> persons are going
                 <h5><span class="badge badge-pill badge-warning">Seats left: </span></h5>
                 <button data-tour-id="@t.Id" class="btn btn-info btn-sm pull-right js-toggle-attendence">Going ?</button>

@@ -191,17 +191,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908090553545_Initial.cs" />
-    <Compile Include="Migrations\201908090553545_Initial.Designer.cs">
-      <DependentUpon>201908090553545_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201908121838228_initial.cs" />
+    <Compile Include="Migrations\201908121838228_initial.Designer.cs">
+      <DependentUpon>201908121838228_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908091056194_attendence.cs" />
-    <Compile Include="Migrations\201908091056194_attendence.Designer.cs">
-      <DependentUpon>201908091056194_attendence.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908112157353_folowerAdded.cs" />
-    <Compile Include="Migrations\201908112157353_folowerAdded.Designer.cs">
-      <DependentUpon>201908112157353_folowerAdded.cs</DependentUpon>
+    <Compile Include="Migrations\201908121847017_Seatadded.cs" />
+    <Compile Include="Migrations\201908121847017_Seatadded.Designer.cs">
+      <DependentUpon>201908121847017_Seatadded.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -334,18 +330,15 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908090553545_Initial.resx">
-      <DependentUpon>201908090553545_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908091056194_attendence.resx">
-      <DependentUpon>201908091056194_attendence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908112157353_folowerAdded.resx">
-      <DependentUpon>201908112157353_folowerAdded.cs</DependentUpon>
-    </EmbeddedResource>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <EmbeddedResource Include="Migrations\201908121838228_initial.resx">
+      <DependentUpon>201908121838228_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908121847017_Seatadded.resx">
+      <DependentUpon>201908121847017_Seatadded.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -43,7 +43,8 @@ namespace TourHub.Controllers
                 DateTime = tourFormViewModel.GetDateTime(),
                 GenreID = tourFormViewModel.Genre,
                 Cost = tourFormViewModel.Cost,
-                Place = tourFormViewModel.Place
+                Place = tourFormViewModel.Place,
+                TotalSeat = tourFormViewModel.TotalSeat
             };
             _dbContext.Tours.Add(tour);
             _dbContext.SaveChanges();
