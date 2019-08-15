@@ -24,7 +24,7 @@
             </div>
 
             <div class="media-body pl-4">
-                <h4>@t.Traveller.Name <small><i>Posted on February 19, 2016 <span class="badge badge-pill badge-success">@t.Genre.Name</span></i></small></h4>
+                <h4>@t.Traveller.Name <button data-user-id="@t.TravellerID" class="btn btn-link btn-sm border-left border-right js-toggle-following">Follow</button> <small><i>Posted on February 19, 2016 <span class="badge badge-pill badge-success">@t.Genre.Name</span></i></small></h4>
                 <i class="fa fa-map-marker"></i> @t.Place <br />
                 <i class="fa fa-dollar"></i> Cost: @t.Cost <br />
                 <i class="fa fa-spinner"></i> Total Seats: @t.TotalSeat <br />
@@ -53,6 +53,17 @@
                         alert("Something failled!");
                     });
             });
+            $(".js-toggle-following").click(function (e) {
+                var buttonbutton = $(e.target);
+                $.post("/api/followings", {followeeId: buttonbutton.attr("data-user-id") }) // check attribute properly
+                    .done(function () {
+                        buttonbutton.text("Following");
+                    })
+                    .fail(function () {
+                        alert("Something Happened");
+                    });
+            });
         });
+
     </script>
 }
