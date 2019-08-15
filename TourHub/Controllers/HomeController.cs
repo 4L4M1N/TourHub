@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TourHub.Models;
+using TourHub.ViewModels;
 using System.Data.Entity;
 
 namespace TourHub.Controllers
@@ -41,8 +42,12 @@ namespace TourHub.Controllers
                 .Include(t => t.Traveller)
                 .Include(t=> t.Genre)
                 .Where(g => g.DateTime > DateTime.Now);
-
-            return View(feed);
+            var viewmodel = new FeedViewModel
+            {
+                UpcommingTours = feed,
+                ShowActions = User.Identity.IsAuthenticated
+            };
+            return View(viewmodel);
         }
     }
 }

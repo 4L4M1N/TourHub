@@ -213,6 +213,7 @@
     <Compile Include="Models\Tour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\FeedViewModel.cs" />
     <Compile Include="ViewModels\TourFormViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
