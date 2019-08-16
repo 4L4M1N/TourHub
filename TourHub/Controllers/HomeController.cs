@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using TourHub.Models;
 using TourHub.ViewModels;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace TourHub.Controllers
 {
@@ -45,9 +46,28 @@ namespace TourHub.Controllers
             var viewmodel = new FeedViewModel
             {
                 UpcommingTours = feed,
-                ShowActions = User.Identity.IsAuthenticated
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Upcomming Tours"
             };
-            return View(viewmodel);
+            return View("Feed",viewmodel);
+        }
+        [Authorize]
+        public ActionResult Attending()
+        {
+            var userId = User.Identity.GetUserId();
+            var tourToAttend = _applicationDbContext.Attendences
+                .Where(a => a.AttendeeId == userId)
+                .Select(a => a.Tour)
+                .Include(t => t.Traveller)
+                .Include(g =>g.Genre)
+                .ToList();
+            var attend = new FeedViewModel
+            {
+                UpcommingTours = tourToAttend,
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Tour I am going"
+            };
+            return View("Feed",attend);
         }
     }
 }
