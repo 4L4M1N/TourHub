@@ -79,7 +79,7 @@ namespace TourHub.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Feed", "Home");
+                    return RedirectToAction("Feed", "Tour");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

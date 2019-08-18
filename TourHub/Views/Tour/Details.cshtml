@@ -1,0 +1,36 @@
+﻿@model TourHub.ViewModels.TourDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    Details<br />
+    @Model.Tour.Traveller.Name
+    @if (User.Identity.IsAuthenticated)
+    {
+        <button class="btn btn-info">Following</button>
+    }
+    else
+    {
+        <button class="btn btn-primary">Follow</button>
+    }
+</h2>
+<h4>Place: @Model.Tour.Place on @Model.Tour.DateTime.ToString("d MMM") at @Model.Tour.DateTime.ToString("HH:mm")</h4>
+@if (Model.Going > 1)
+{
+    <h4>@Model.Going persons are going</h4>
+}
+else if (Model.Going == 1)
+{
+    <h4>@Model.Going person is going</h4>
+}else
+{
+    <h4>No one is going. Want to Go?</h4>
+}
+@if (User.Identity.IsAuthenticated && Model.IsAttending)
+{
+    <p>Your are going to this tour</p>
+}
+
