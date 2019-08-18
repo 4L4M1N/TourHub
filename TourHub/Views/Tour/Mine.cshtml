@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TourHub.Models.Tour>
+@{
+    ViewBag.Title = "Mine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Mine</h2>
+<ul class="tevent">
+    @foreach (var t in Model)
+    {
+        <li>
+            <div class="media border p-3" id="bcard">
+                <div class="date">
+                    <div class="month">
+                        @t.DateTime.ToString("MMM")
+                    </div>
+                    <div class="day">
+                        @t.DateTime.ToString("d ")
+                    </div>
+                    <div class="time">
+                        @t.DateTime.ToString("HH:mm")
+
+                    </div>
+                </div>
+
+                <div class="media-body pl-4">
+                    <h4>
+                       
+                        <small><i>Posted on February 19, 2016 <span class="badge badge-pill badge-success">@t.Genre.Name</span></i></small>
+                    </h4>
+                    <i class="fa fa-map-marker"></i> @t.Place <br />
+                    <i class="fa fa-dollar-sign"></i> Cost: @t.Cost <br />
+                    <i class="fa fa-spinner"></i> Total Seats: @t.TotalSeat <br />
+                    <i class="fa fa-users"></i> persons are going
+                    <h5><span class="badge badge-pill badge-warning">Seats left: </span></h5>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

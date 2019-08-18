@@ -67,6 +67,18 @@ namespace TourHub.Controllers
             };
             return View("Feed", viewmodel);
         }
+
+        [Authorize]
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+            var tourOfMine = _dbContext.Tours
+                .Where(t => t.TravellerID == userId && t.DateTime > DateTime.Now)
+                .Include(t =>t.Genre)
+                .ToList();
+            return View(tourOfMine);
+        }
+
         [Authorize]
         public ActionResult Attending()
         {
