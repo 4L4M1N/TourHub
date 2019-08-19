@@ -27,6 +27,8 @@ namespace TourHub.ViewModels
 
         [Required]
         public int TotalSeat { get; set; }
+
+        public string Heading { get; set; }
         public IEnumerable<Genre> Genres { get; set; }
         public DateTime GetDateTime() {
 

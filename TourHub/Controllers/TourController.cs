@@ -23,10 +23,28 @@ namespace TourHub.Controllers
         {
             var viewModel = new TourFormViewModel
             {
+                Heading = "Create a Tour Event",
                 Genres = _dbContext.Genres.ToList()
             };
 
-            return View(viewModel);
+            return View("TourForm", viewModel);
+        }
+        public ActionResult Edit(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var tour = _dbContext.Tours.Single(t => t.Id == id && t.TravellerID == userId);
+            var viewModel = new TourFormViewModel
+            {
+                Genres = _dbContext.Genres.ToList(),
+                Date = tour.DateTime.ToString("d MMM yyyy"),
+                Time = tour.DateTime.ToString("HH:mm"),
+                Genre = tour.GenreID,
+                Place = tour.Place,
+                Cost = tour.Cost,
+                TotalSeat = tour.TotalSeat,
+                Heading = "Edit your Tour Event"
+            };
+            return View("TourForm", viewModel);
         }
         [Authorize]
         [HttpPost]
@@ -49,7 +67,7 @@ namespace TourHub.Controllers
             };
             _dbContext.Tours.Add(tour);
             _dbContext.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Mine", "Tour");
         }
         [Authorize]
         public ActionResult Feed()

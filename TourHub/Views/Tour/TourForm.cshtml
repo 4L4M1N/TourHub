@@ -1,6 +1,6 @@
 ﻿@model TourHub.ViewModels.TourFormViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = Model.Heading;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
@@ -10,7 +10,7 @@
     <div class="col-md-4">
         <div class="card shadow p-3 mb-5 bg-white rounded">
             <div class="card-header">
-                Featured
+                @Model.Heading
             </div>
             <div class="card-body">
                 @using (Html.BeginForm("Create", "Tour"))
@@ -52,7 +52,18 @@
                         @Html.DropDownListFor(m => m.Genre, new SelectList(Model.Genres, "id", "name"), " ", new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Genre)
                     </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    {
+                        if (HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString() == "Create")
+                        {
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        }
+                    }
+
+
                 }
             </div>
         </div>
