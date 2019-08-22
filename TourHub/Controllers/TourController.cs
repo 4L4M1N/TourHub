@@ -36,6 +36,7 @@ namespace TourHub.Controllers
             var viewModel = new TourFormViewModel
             {
                 Genres = _dbContext.Genres.ToList(),
+                Id = id,
                 Date = tour.DateTime.ToString("d MMM yyyy"),
                 Time = tour.DateTime.ToString("HH:mm"),
                 Genre = tour.GenreID,
@@ -54,7 +55,7 @@ namespace TourHub.Controllers
             if (!ModelState.IsValid)
             {
                 tourFormViewModel.Genres = _dbContext.Genres.ToList();
-                return View("Create", tourFormViewModel);
+                return View("TourForm", tourFormViewModel);
             }
             var tour = new Tour
             {
@@ -69,6 +70,29 @@ namespace TourHub.Controllers
             _dbContext.SaveChanges();
             return RedirectToAction("Mine", "Tour");
         }
+        //Update 
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken] //CSRF attack
+        public ActionResult Update(TourFormViewModel tourFormViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                tourFormViewModel.Genres = _dbContext.Genres.ToList();
+                return View("TourForm", tourFormViewModel);
+            }
+            var userId = User.Identity.GetUserId();
+            var tour = _dbContext.Tours.Single(t => t.Id == tourFormViewModel.Id && t.TravellerID == userId);
+            tour.Place = tourFormViewModel.Place;
+            tour.TotalSeat = tourFormViewModel.TotalSeat;
+            tour.DateTime = tourFormViewModel.GetDateTime();
+            tour.Cost = tourFormViewModel.Cost;
+            tour.GenreID = tourFormViewModel.Genre;
+            //update data
+            _dbContext.SaveChanges();
+            return RedirectToAction("Mine", "Tour");
+        }
+
         [Authorize]
         public ActionResult Feed()
         {
