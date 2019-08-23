@@ -29,6 +29,7 @@
                     </h4>
                     <div class="actions">
                         <a href="@Url.Action("Edit", "Tour", new { id = t.Id})">Edit</a>
+                        <a href="#" class="js-cancel-tour" data-gig-id="@t.Id">Cancel</a>
                     </div>
                     <i class="fa fa-map-marker"></i> @t.Place <br />
                     <i class="fa fa-dollar-sign"></i> Cost: @t.Cost <br />
@@ -40,3 +41,27 @@
         </li>
     }
 </ul>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-cancel-tour").click(function (e) {
+                var link = $(e.target);
+                if (confirm("Are you sure to delete this tour?")) {
+                    $.ajax({
+                        url: "/api/tour/" + link.attr("data-gig-id"),
+                        method: "DELETE"
+                    })
+                        .done(function () {
+                            link.parents("li").fadeOut(function () {
+                                $(this).remove();
+                            })
+                        })
+                        .fail(function () {
+                            alert("Something failled");
+                        })
+                }
+            });
+        });
+    </script>
+}

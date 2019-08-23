@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\TourController.cs" />
     <Compile Include="Controllers\AttendencesController.cs" />
     <Compile Include="Controllers\FollowingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -200,6 +201,10 @@
     <Compile Include="Migrations\201908121847017_Seatadded.cs" />
     <Compile Include="Migrations\201908121847017_Seatadded.Designer.cs">
       <DependentUpon>201908121847017_Seatadded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908230020408_AddIsCanceled.cs" />
+    <Compile Include="Migrations\201908230020408_AddIsCanceled.Designer.cs">
+      <DependentUpon>201908230020408_AddIsCanceled.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -380,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908121847017_Seatadded.resx">
       <DependentUpon>201908121847017_Seatadded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908230020408_AddIsCanceled.resx">
+      <DependentUpon>201908230020408_AddIsCanceled.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

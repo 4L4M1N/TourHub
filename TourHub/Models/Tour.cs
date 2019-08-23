@@ -11,7 +11,7 @@ namespace TourHub.Models
       
         public int Id { get; set; }
 
-        
+        public bool IsCanceled { get; set; }
         public ApplicationUser Traveller { get; set; }
         [Required]
         public string TravellerID { get; set; }
