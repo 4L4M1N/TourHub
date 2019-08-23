@@ -31,6 +31,10 @@
                     {
                         <button data-user-id="@t.TravellerID" class="btn btn-link btn-sm border-left border-right js-toggle-following">Follow</button>
                     }
+                    @if (t.IsCanceled)
+                    {
+                        <span class="badge badge-pill badge-danger">Cancelled</span>
+                    }
                     <small><i>Posted on February 19, 2016 <span class="badge badge-pill badge-success">@t.Genre.Name</span></i></small>
                 </h4>
                 <i class="fa fa-map-marker"></i> @t.Place <br />
@@ -38,7 +42,7 @@
                 <i class="fa fa-spinner"></i> Total Seats: @t.TotalSeat <br />
                 <i class="fa fa-users"></i> persons are going
                 <h5><span class="badge badge-pill badge-warning">Seats left: </span></h5>
-                @if (Model.ShowActions)
+                @if (Model.ShowActions && !t.IsCanceled)
                 {
                     <button data-tour-id="@t.Id" class="btn btn-info btn-sm pull-right js-toggle-attendence">Going ?</button>
                 }

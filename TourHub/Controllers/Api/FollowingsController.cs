@@ -8,7 +8,7 @@ using System.Web.Http;
 using TourHub.DTOs;
 using TourHub.Models;
 
-namespace TourHub.Controllers
+namespace TourHub.Controllers.Api
 {
     public class FollowingsController : ApiController
     {

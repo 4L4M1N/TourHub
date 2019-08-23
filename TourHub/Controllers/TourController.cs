@@ -100,7 +100,7 @@ namespace TourHub.Controllers
             var feed = _dbContext.Tours
                 .Include(t => t.Traveller)
                 .Include(t => t.Genre)
-                .Where(g => g.DateTime > DateTime.Now);
+                .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
             var viewmodel = new FeedViewModel
             {
                 UpcommingTours = feed,
@@ -115,7 +115,7 @@ namespace TourHub.Controllers
         {
             var userId = User.Identity.GetUserId();
             var tourOfMine = _dbContext.Tours
-                .Where(t => t.TravellerID == userId && t.DateTime > DateTime.Now)
+                .Where(t => t.TravellerID == userId && t.DateTime > DateTime.Now && !t.IsCanceled)
                 .Include(t =>t.Genre)
                 .ToList();
             return View(tourOfMine);

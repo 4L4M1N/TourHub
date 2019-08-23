@@ -24,6 +24,8 @@ namespace TourHub.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
             var tour = _context.Tours.Single(t => t.Id == id && t.TravellerID == userId);
+            if (tour.IsCanceled)
+                return NotFound();
             tour.IsCanceled = true;
             _context.SaveChanges();
             return Ok();
