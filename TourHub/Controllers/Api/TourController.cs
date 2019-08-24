@@ -27,6 +27,26 @@ namespace TourHub.Controllers.Api
             if (tour.IsCanceled)
                 return NotFound();
             tour.IsCanceled = true;
+            var notification = new Notification
+            {
+                DateTime = DateTime.Now,
+                Tour = tour,
+                Type = NotificationType.TourCanceled
+            };
+            var attendees = _context.Attendences
+                .Where(t => t.TourId == tour.Id)
+                .Select(t => t.Attendee)
+                .ToList();
+
+            foreach(var attendee in attendees)
+            {
+                var usernotification = new UserNotification
+                {
+                    User = attendee,
+                    Notification = notification
+                };
+                _context.UserNotifications.Add(usernotification);
+            }
             _context.SaveChanges();
             return Ok();
         }

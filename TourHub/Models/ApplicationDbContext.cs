@@ -15,6 +15,8 @@ namespace TourHub.Models
 
         public DbSet<Attendence> Attendences { get; set; }
         public DbSet<Following> Followings { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
         public ApplicationDbContext()
                 : base("TourTour", throwIfV1Schema: false)
             {
@@ -39,6 +41,11 @@ namespace TourHub.Models
             modelBuilder.Entity<ApplicationUser>()
                 .HasMany(f => f.Followees)
                 .WithRequired(f => f.Follower)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UserNotification>()
+                .HasRequired(f => f.User)
+                .WithMany()
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
