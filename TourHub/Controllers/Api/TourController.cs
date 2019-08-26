@@ -23,30 +23,15 @@ namespace TourHub.Controllers.Api
         public IHttpActionResult Cancel(int id)
         {
             var userId = User.Identity.GetUserId();
-            var tour = _context.Tours.Single(t => t.Id == id && t.TravellerID == userId);
+            var tour = _context.Tours
+                .Include(a => a.Attendences.Select(b => b.Attendee))
+                .Single(t => t.Id == id && t.TravellerID == userId);
             if (tour.IsCanceled)
                 return NotFound();
-            tour.IsCanceled = true;
-            var notification = new Notification
-            {
-                DateTime = DateTime.Now,
-                Tour = tour,
-                Type = NotificationType.TourCanceled
-            };
-            var attendees = _context.Attendences
-                .Where(t => t.TourId == tour.Id)
-                .Select(t => t.Attendee)
-                .ToList();
 
-            foreach(var attendee in attendees)
-            {
-                var usernotification = new UserNotification
-                {
-                    User = attendee,
-                    Notification = notification
-                };
-                _context.UserNotifications.Add(usernotification);
-            }
+            tour.cancel();
+
+
             _context.SaveChanges();
             return Ok();
         }

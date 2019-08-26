@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace TourHub.Models
       
         public int Id { get; set; }
 
-        public bool IsCanceled { get; set; }
+        public bool IsCanceled { get; private set; }
         public ApplicationUser Traveller { get; set; }
         [Required]
         public string TravellerID { get; set; }
@@ -29,5 +30,22 @@ namespace TourHub.Models
 
         [Required]
         public int TotalSeat { get; set; }
+        public ICollection<Attendence> Attendences { get; private set; }
+
+        public void cancel()
+        {
+            IsCanceled = true;
+            var notification = new Notification(NotificationType.TourCanceled, this);
+            foreach (var attendee in Attendences.Select(a => a.Attendee))
+            {
+                attendee.Notify(notification);
+
+            }
+        }
+
+        public Tour()
+        {
+            Attendences = new Collection<Attendence>();
+        }
     }
 }

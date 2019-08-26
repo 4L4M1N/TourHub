@@ -30,7 +30,7 @@ namespace TourHub.Models
         {
             modelBuilder.Entity<Attendence>()
                 .HasRequired(a => a.Tour)
-                .WithMany()
+                .WithMany(t => t.Attendences)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ApplicationUser>()
@@ -45,7 +45,7 @@ namespace TourHub.Models
 
             modelBuilder.Entity<UserNotification>()
                 .HasRequired(f => f.User)
-                .WithMany()
+                .WithMany(n => n.UserNotifications)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
