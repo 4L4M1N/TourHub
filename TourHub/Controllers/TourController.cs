@@ -82,12 +82,20 @@ namespace TourHub.Controllers
                 return View("TourForm", tourFormViewModel);
             }
             var userId = User.Identity.GetUserId();
-            var tour = _dbContext.Tours.Single(t => t.Id == tourFormViewModel.Id && t.TravellerID == userId);
-            tour.Place = tourFormViewModel.Place;
-            tour.TotalSeat = tourFormViewModel.TotalSeat;
-            tour.DateTime = tourFormViewModel.GetDateTime();
-            tour.Cost = tourFormViewModel.Cost;
-            tour.GenreID = tourFormViewModel.Genre;
+            var tour = _dbContext.Tours
+                .Include(a =>a.Attendences.Select(s =>s.Attendee))
+                .Single(t => t.Id == tourFormViewModel.Id && t.TravellerID == userId);
+
+            tour.Modify(tourFormViewModel.GetDateTime(), tourFormViewModel.Place,
+                tourFormViewModel.TotalSeat, tourFormViewModel.Cost,
+                tourFormViewModel.Genre);
+
+            //tour.Place = tourFormViewModel.Place;
+            //tour.TotalSeat = tourFormViewModel.TotalSeat;
+            //tour.DateTime = tourFormViewModel.GetDateTime();
+            //tour.Cost = tourFormViewModel.Cost;
+            //tour.GenreID = tourFormViewModel.Genre;
+
             //update data
             _dbContext.SaveChanges();
             return RedirectToAction("Mine", "Tour");

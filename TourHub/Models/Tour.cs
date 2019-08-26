@@ -35,7 +35,7 @@ namespace TourHub.Models
         public void cancel()
         {
             IsCanceled = true;
-            var notification = new Notification(NotificationType.TourCanceled, this);
+            var notification = Notification.TourCanceled(this);
             foreach (var attendee in Attendences.Select(a => a.Attendee))
             {
                 attendee.Notify(notification);
@@ -46,6 +46,21 @@ namespace TourHub.Models
         public Tour()
         {
             Attendences = new Collection<Attendence>();
+        }
+
+        public void Modify(DateTime dateTime, string place, int totalSeat, decimal cost, byte genre)
+        {
+            var notification = Notification.TourUpdated(this, DateTime, Place);
+            Place = place;
+            DateTime = dateTime;
+            TotalSeat = totalSeat;
+            Cost = cost;
+            GenreID = genre;
+
+            foreach( var attendee in Attendences.Select(a =>a.Attendee))
+            {
+                attendee.Notify(notification);
+            }
         }
     }
 }
