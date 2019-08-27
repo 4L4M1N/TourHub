@@ -5,6 +5,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Http;
 using TourHub.App_Start;
+using AutoMapper;
 
 namespace TourHub
 {
@@ -12,7 +13,6 @@ namespace TourHub
     {
         protected void Application_Start()
         {
-
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

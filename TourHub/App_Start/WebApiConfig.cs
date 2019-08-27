@@ -14,6 +14,9 @@ namespace TourHub.App_Start
         {
 
             // Web API routes
+            var settings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            settings.Formatting = Newtonsoft.Json.Formatting.Indented;
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
