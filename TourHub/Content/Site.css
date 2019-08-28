@@ -89,3 +89,16 @@ input, select, textarea {
     background-image: url("/Images/hiking.jpg");
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+#notificationIcon {
+    padding-top:12px;
+}
+
+.nav .notifications {
+    position:relative;
+}
+.nav .notifications .badge {
+    position:absolute;
+    top:5px;
+    right:-1px;
+    background-color:orange;
+}

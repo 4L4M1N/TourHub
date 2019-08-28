@@ -28,7 +28,7 @@ namespace TourHub.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
             var notifications = _context.UserNotifications
-                .Where(u => u.UserId == userId)
+                .Where(u => u.UserId == userId && !u.IsRead)
                 .Select(u => u.Notification)
                 .Include(t => t.Tour.Traveller)
                 .ToList();
