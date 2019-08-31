@@ -43,11 +43,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script type="text/x-template" id="notifications-template">
-        <ul>
+        <ul class="notifications">
             <%
             _.each(notifications, function(notification){
             if (notification.type == 1) { %>
-            <li><%= notification.tour.traveller.name %> has canceled the gig at <%= notification.tour.place %> at <%= notification.tour.dateTime %>.</li>
+            <li><span id="highlight"> <%= notification.tour.traveller.name %> </span> has canceled the gig at <%= notification.tour.place %> at <%= moment(notification.tour.dateTime).format("D MMM HH:mm")  %>.</li>
             <% }
 
             else if (notification.type == 2) {
@@ -63,12 +63,12 @@
 
             if (notification.originalDateTime != notification.tour.dateTime) {
             changes.push('date/time');
-            originalValues.push(notification.originalDateTime);
-            newValues.push(notification.tour.dateTime);
+            originalValues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
+            newValues.push(moment(notification.tour.dateTime).format("D MMM HH:mm"));
             }
 
             %>
-            <li><%= notification.tour.traveller.name %> has changed the <%= changes.join(' and ') %> of the tour from <%= originalValues.join('/') %> to <%= newValues.join('/') %></li>
+            <li><span id="highlight"><%= notification.tour.traveller.name %></span> has changed the <%= changes.join(' and ') %> of the tour from <%= originalValues.join('/') %> to <%= newValues.join('/') %></li>
             <%
             }
             })
@@ -96,7 +96,8 @@
                     //var html = compiled({ name: "bandor" });
                     //return html;
                 },
-                placement: "bottom"
+                    placement: "bottom",
+                    template: '<div class="popover popover-notifications" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
             });
 
             });
