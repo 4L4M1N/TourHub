@@ -102,6 +102,7 @@ input, select, textarea {
     right:-1px;
     background-color:orange;
 }
+
 .popover-notifications ul.notifications {
     list-style: none;
     padding-left: 0;

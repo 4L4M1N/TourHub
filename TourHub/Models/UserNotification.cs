@@ -35,5 +35,9 @@ namespace TourHub.Models
             User = user;
             Notification = notification;
         }
+        public void Read()
+        {
+            IsRead = true;
+        }
     }
 }

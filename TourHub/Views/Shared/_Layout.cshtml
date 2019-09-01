@@ -87,18 +87,25 @@
                     .addClass("animated bounceInDown");
 
                 $(".notifications").popover({
-                html: true,
-                title: "Notifications",
-                content: function () {
+                    html: true,
+                    title: "Notifications",
+                    content: function () {
                         var compiled = _.template($("#notifications-template").html());
                         return compiled({ notifications: notifications });
-                    //var compiled = _.template($("#notifications-template").html());
-                    //var html = compiled({ name: "bandor" });
-                    //return html;
-                },
+                        //var compiled = _.template($("#notifications-template").html());
+                        //var html = compiled({ name: "bandor" });
+                        //return html;
+                    },
                     placement: "bottom",
                     template: '<div class="popover popover-notifications" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
-            });
+                }).on("shown.bs.popover", function () {
+                    $.post("/api/notifications/markAsRead")
+                        .done(function () {
+                            $(".js-notification-count")
+                                .text("")
+                                .addClass("hide");
+                        });
+                });
 
             });
 
