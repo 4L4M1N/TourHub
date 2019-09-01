@@ -11,5 +11,6 @@ namespace TourHub.ViewModels
         public IEnumerable<Tour> UpcommingTours { get; set; }
         public bool ShowActions { get; set; }
         public string Heading { get; set; }
+        public string SearchTerm { get; set; }
     }
 }

@@ -5,6 +5,19 @@
 }
 
 <br /><h2>@Model.Heading</h2>
+@using (Html.BeginForm("Search", "Tour"))
+{
+    <div class="form-group">
+        <div class="input-group">
+            @Html.TextBoxFor(l => l.SearchTerm, new { @class = "form-control", placeholder = "Search by Traveller Name, Place, Genre" })
+            <span class="input-group-text">
+                <i class="fa fa-search"></i>
+            </span>
+        </div>
+        
+    </div>
+    @*<input type="submit" value="Search"/>*@
+}
 <ul class="tevent">
     @foreach (var t in Model.UpcommingTours)
     {
@@ -25,16 +38,16 @@
 
             <div class="media-body pl-4">
                 <h4>
-                    <a href="@Url.Action("Details","Tour", new { id = t.Id})">@t.Traveller.Name</a>
+                    <a href="@Url.Action("Details", "Tour", new { id = t.Id })">@t.Traveller.Name</a>
                     
                     @if (Model.ShowActions)
-                    {
+    {
                         <button data-user-id="@t.TravellerID" class="btn btn-link btn-sm border-left border-right js-toggle-following">Follow</button>
-                    }
+    }
                     @if (t.IsCanceled)
-                    {
+    {
                         <span class="badge badge-pill badge-danger">Cancelled</span>
-                    }
+    }
                     <small><i>Posted on February 19, 2016 <span class="badge badge-pill badge-success">@t.Genre.Name</span></i></small>
                 </h4>
                 <i class="fa fa-map-marker"></i> @t.Place <br />
@@ -43,14 +56,14 @@
                 <i class="fa fa-users"></i> persons are going
                 <h5><span class="badge badge-pill badge-warning">Seats left: </span></h5>
                 @if (Model.ShowActions && !t.IsCanceled)
-                {
+    {
                     <button data-tour-id="@t.Id" class="btn btn-info btn-sm pull-right js-toggle-attendence">Going ?</button>
-                }
+    }
 
             </div>
         </div>
     </li>
-    }
+        }
 </ul>
 @section scripts
 {

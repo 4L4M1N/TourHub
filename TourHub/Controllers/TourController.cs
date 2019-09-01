@@ -102,18 +102,27 @@ namespace TourHub.Controllers
         }
 
         [Authorize]
-        public ActionResult Feed()
+        public ActionResult Feed(string query = null)
         {
 
             var feed = _dbContext.Tours
                 .Include(t => t.Traveller)
                 .Include(t => t.Genre)
                 .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
+            if(!String.IsNullOrWhiteSpace(query))
+            {
+                feed = feed
+                    .Where(g =>
+                    g.Traveller.Name.Contains(query) ||
+                    g.Genre.Name.Contains(query) ||
+                    g.Place.Contains(query));
+            }
             var viewmodel = new FeedViewModel
             {
                 UpcommingTours = feed,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Upcomming Tours"
+                Heading = "Upcomming Tours",
+                SearchTerm = query
             };
             return View("Feed", viewmodel);
         }
@@ -170,6 +179,11 @@ namespace TourHub.Controllers
 
             }
             return View("Details", viewModel);
+        }
+        [HttpPost]
+        public ActionResult Search(FeedViewModel viewModel)
+        {
+            return RedirectToAction("Feed", "Tour", new { query = viewModel.SearchTerm });
         }
 
     }
