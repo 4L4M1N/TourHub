@@ -117,12 +117,18 @@ namespace TourHub.Controllers
                     g.Genre.Name.Contains(query) ||
                     g.Place.Contains(query));
             }
+            var userId = User.Identity.GetUserId();
+            var attendences = _dbContext.Attendences
+                .Where(a => a.AttendeeId == userId && a.Tour.DateTime > DateTime.Now)
+                .ToList()
+                .ToLookup(a => a.TourId);
             var viewmodel = new FeedViewModel
             {
                 UpcommingTours = feed,
                 ShowActions = User.Identity.IsAuthenticated,
                 Heading = "Upcomming Tours",
-                SearchTerm = query
+                SearchTerm = query,
+                Attendences = attendences
             };
             return View("Feed", viewmodel);
         }

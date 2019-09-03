@@ -56,8 +56,10 @@
                 <i class="fa fa-users"></i> persons are going
                 <h5><span class="badge badge-pill badge-warning">Seats left: </span></h5>
                 @if (Model.ShowActions && !t.IsCanceled)
-    {
-                    <button data-tour-id="@t.Id" class="btn btn-info btn-sm pull-right js-toggle-attendence">Going ?</button>
+                {
+                    <button 
+                            data-tour-id="@t.Id" 
+                            class="btn @(Model.Attendences.Contains(t.Id) ? "btn-info" : "btn-default") btn-sm pull-right js-toggle-attendence">Going ?</button>
     }
 
             </div>
