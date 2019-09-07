@@ -18,7 +18,7 @@
     </div>
     @*<input type="submit" value="Search"/>*@
 }
-<ul class="tevent">
+<ul id="tours"class="tevent">
     @foreach (var t in Model.UpcommingTours)
     {
     <li>
@@ -71,19 +71,7 @@
 {
     <script>
         $(document).ready(function () {
-            $(".js-toggle-attendence").click(function (e) {
-                var button = $(e.target);
-                $.post("/api/attendences", {tourId: button.attr("data-tour-id") })
-                    .done(function () {
-                        button
-                            .removeClass("btn-info")
-                            .addClass("btn-success")
-                            .text("Going")
-                    })
-                    .fail(function () {
-                        alert("Something failled!");
-                    });
-            });
+            FeedContorller.init("#tours");
             $(".js-toggle-following").click(function (e) {
                 var buttonbutton = $(e.target);
                 $.post("/api/followings", {followeeId: buttonbutton.attr("data-user-id") }) // check attribute properly

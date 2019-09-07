@@ -31,6 +31,17 @@ namespace TourHub.Controllers.Api
             _context.SaveChanges();
             return Ok();
         }
-
+        [HttpDelete]
+        public IHttpActionResult DeleteAttendence(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var attendence = _context.Attendences
+                .SingleOrDefault(a => a.AttendeeId == userId && a.TourId == id);
+            if (attendence == null)
+                return NotFound();
+            _context.Attendences.Remove(attendence);
+            _context.SaveChanges();
+            return Ok(id);
+        }
     }
 }

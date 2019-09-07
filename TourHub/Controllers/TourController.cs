@@ -154,11 +154,18 @@ namespace TourHub.Controllers
                 .Include(t => t.Traveller)
                 .Include(g => g.Genre)
                 .ToList();
+
+            var attendences = _dbContext.Attendences
+                .Where(a => a.AttendeeId == userId && a.Tour.DateTime > DateTime.Now)
+                .ToList()
+                .ToLookup(a => a.TourId);
+
             var attend = new FeedViewModel
             {
                 UpcommingTours = tourToAttend,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Tour I am going"
+                Heading = "Tour I am going",
+                Attendences = attendences
             };
             return View("Feed", attend);
         }
