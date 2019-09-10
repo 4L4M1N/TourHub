@@ -20,5 +20,10 @@ namespace TourHub.Repositories
                             .Where(a => a.AttendeeId == userId && a.Tour.DateTime > DateTime.Now)
                             .ToList();
         }
+        public Attendence GetAttendence(int tourId, string userId)
+        {
+            return _context.Attendences
+                .SingleOrDefault(a => a.TourId == tourId && a.AttendeeId == userId);
+        }
     }
 }

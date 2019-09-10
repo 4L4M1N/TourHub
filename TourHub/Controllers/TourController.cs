@@ -17,11 +17,13 @@ namespace TourHub.Controllers
         private readonly ApplicationDbContext _dbContext;
         private readonly AttendenceRepository _attendenceRepository;
         private readonly TourRepository _tourRepository;
+        private readonly FollowingRepository _followingRepository;
         public TourController()
         {
             _dbContext = new ApplicationDbContext();
             _attendenceRepository = new AttendenceRepository(_dbContext);
             _tourRepository = new TourRepository(_dbContext);
+            _followingRepository = new FollowingRepository(_dbContext);
         }
         [Authorize]
         public ActionResult Create()
@@ -71,7 +73,7 @@ namespace TourHub.Controllers
                 Place = tourFormViewModel.Place,
                 TotalSeat = tourFormViewModel.TotalSeat
             };
-            _dbContext.Tours.Add(tour);
+            _tourRepository.Add(tour);
             _dbContext.SaveChanges();
             return RedirectToAction("Mine", "Tour");
         }
@@ -113,12 +115,8 @@ namespace TourHub.Controllers
         [Authorize]
         public ActionResult Feed(string query = null)
         {
-
-            var feed = _dbContext.Tours
-                .Include(t => t.Traveller)
-                .Include(t => t.Genre)
-                .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
-            if(!String.IsNullOrWhiteSpace(query))
+            IQueryable<Tour> feed = _tourRepository.GetTourFeed();
+            if (!String.IsNullOrWhiteSpace(query))
             {
                 feed = feed
                     .Where(g =>
@@ -140,16 +138,15 @@ namespace TourHub.Controllers
             return View("Feed", viewmodel);
         }
 
+
         [Authorize]
         public ActionResult Mine()
         {
             var userId = User.Identity.GetUserId();
-            var tourOfMine = _dbContext.Tours
-                .Where(t => t.TravellerID == userId && t.DateTime > DateTime.Now && !t.IsCanceled)
-                .Include(t =>t.Genre)
-                .ToList();
+            List<Tour> tourOfMine = _tourRepository.GetMineTour(userId);
             return View(tourOfMine);
         }
+
 
         [Authorize]
         public ActionResult Attending()
@@ -169,16 +166,9 @@ namespace TourHub.Controllers
             return View("Feed", attend);
         }
 
-       
-
- 
-
         public ActionResult Details(int id)
         {
-            var tour = _dbContext.Tours
-                .Include(t => t.Traveller)
-                .Include(t => t.Genre)
-                .SingleOrDefault(t => t.Id == id);
+            Tour tour = _tourRepository.GetTourDetails(id);
             if (tour == null)
                 return HttpNotFound();
             var viewModel = new TourDetailsViewModel
@@ -186,17 +176,18 @@ namespace TourHub.Controllers
                 Tour = tour,
                 Going = _dbContext.Attendences.Where(t => t.TourId == id).Count()
             };
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
-                viewModel.IsAttending = _dbContext.Attendences
-                    .Any(t => t.TourId == tour.Id && t.AttendeeId == userId);
-                viewModel.IsFollowing = _dbContext.Followings
-                    .Any(f => f.FolloweeId == tour.TravellerID && f.FollowerId == userId);
+                viewModel.IsAttending = _attendenceRepository.GetAttendence(tour.Id, userId) != null;
+                viewModel.IsFollowing = _followingRepository.GetFollowing(userId, tour.TravellerID) != null;
 
             }
             return View("Details", viewModel);
         }
+
+        
+
         [HttpPost]
         public ActionResult Search(FeedViewModel viewModel)
         {
