@@ -29,5 +29,31 @@ namespace TourHub.Repositories
                 .Include(g => g.Genre)
                 .ToList();
         }
+        public List<Tour> GetMineTour(string userId)
+        {
+            return _context.Tours
+                .Where(t => t.TravellerID == userId && t.DateTime > DateTime.Now && !t.IsCanceled)
+                .Include(t => t.Genre)
+                .ToList();
+        }
+        public Tour GetTourDetails(int id)
+        {
+            return _context.Tours
+                .Include(t => t.Traveller)
+                .Include(t => t.Genre)
+                .SingleOrDefault(t => t.Id == id);
+        }
+
+        public IQueryable<Tour> GetTourFeed()
+        {
+            return _context.Tours
+                .Include(t => t.Traveller)
+                .Include(t => t.Genre)
+                .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
+        }
+        public void Add(Tour tour)
+        {
+            _context.Tours.Add(tour);
+        }
     }
 }

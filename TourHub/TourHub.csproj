@@ -234,6 +234,7 @@
     <Compile Include="Models\UserNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AttendenceRepository.cs" />
+    <Compile Include="Repositories\FollowingRepository.cs" />
     <Compile Include="Repositories\TourRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\FeedViewModel.cs" />
