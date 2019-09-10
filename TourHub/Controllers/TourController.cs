@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TourHub.Models;
+using TourHub.Repositories;
 using TourHub.ViewModels;
 
 namespace TourHub.Controllers
@@ -14,9 +15,13 @@ namespace TourHub.Controllers
     {
         // GET: Tour
         private readonly ApplicationDbContext _dbContext;
+        private readonly AttendenceRepository _attendenceRepository;
+        private readonly TourRepository _tourRepository;
         public TourController()
         {
             _dbContext = new ApplicationDbContext();
+            _attendenceRepository = new AttendenceRepository(_dbContext);
+            _tourRepository = new TourRepository(_dbContext);
         }
         [Authorize]
         public ActionResult Create()
@@ -81,10 +86,14 @@ namespace TourHub.Controllers
                 tourFormViewModel.Genres = _dbContext.Genres.ToList();
                 return View("TourForm", tourFormViewModel);
             }
-            var userId = User.Identity.GetUserId();
-            var tour = _dbContext.Tours
-                .Include(a =>a.Attendences.Select(s =>s.Attendee))
-                .Single(t => t.Id == tourFormViewModel.Id && t.TravellerID == userId);
+            
+            var tour = _tourRepository.GetTourWithAttendees(tourFormViewModel.Id);
+
+            if (tour == null)
+                return HttpNotFound();
+
+            if (tour.TravellerID != User.Identity.GetUserId())
+                return new HttpUnauthorizedResult();
 
             tour.Modify(tourFormViewModel.GetDateTime(), tourFormViewModel.Place,
                 tourFormViewModel.TotalSeat, tourFormViewModel.Cost,
@@ -118,9 +127,7 @@ namespace TourHub.Controllers
                     g.Place.Contains(query));
             }
             var userId = User.Identity.GetUserId();
-            var attendences = _dbContext.Attendences
-                .Where(a => a.AttendeeId == userId && a.Tour.DateTime > DateTime.Now)
-                .ToList()
+            var attendences = _attendenceRepository.GetFutureAttendences(userId)
                 .ToLookup(a => a.TourId);
             var viewmodel = new FeedViewModel
             {
@@ -148,27 +155,24 @@ namespace TourHub.Controllers
         public ActionResult Attending()
         {
             var userId = User.Identity.GetUserId();
-            var tourToAttend = _dbContext.Attendences
-                .Where(a => a.AttendeeId == userId)
-                .Select(a => a.Tour)
-                .Include(t => t.Traveller)
-                .Include(g => g.Genre)
-                .ToList();
+            //List<Tour> tourToAttend = GetTourUserAttending(userId);
 
-            var attendences = _dbContext.Attendences
-                .Where(a => a.AttendeeId == userId && a.Tour.DateTime > DateTime.Now)
-                .ToList()
-                .ToLookup(a => a.TourId);
 
             var attend = new FeedViewModel
             {
-                UpcommingTours = tourToAttend,
+                UpcommingTours = _tourRepository.GetTourUserAttending(userId),
                 ShowActions = User.Identity.IsAuthenticated,
                 Heading = "Tour I am going",
-                Attendences = attendences
+                Attendences = _attendenceRepository.GetFutureAttendences(userId)
+                .ToLookup(a => a.TourId)
             };
             return View("Feed", attend);
         }
+
+       
+
+ 
+
         public ActionResult Details(int id)
         {
             var tour = _dbContext.Tours
