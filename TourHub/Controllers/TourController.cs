@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TourHub.Models;
+using TourHub.Persistence;
 using TourHub.Repositories;
 using TourHub.ViewModels;
 
@@ -18,12 +19,14 @@ namespace TourHub.Controllers
         private readonly AttendenceRepository _attendenceRepository;
         private readonly TourRepository _tourRepository;
         private readonly FollowingRepository _followingRepository;
+        private readonly UnitOfWork _unitOfWork;
         public TourController()
         {
             _dbContext = new ApplicationDbContext();
             _attendenceRepository = new AttendenceRepository(_dbContext);
             _tourRepository = new TourRepository(_dbContext);
             _followingRepository = new FollowingRepository(_dbContext);
+            _unitOfWork = new UnitOfWork(_dbContext);
         }
         [Authorize]
         public ActionResult Create()
@@ -74,7 +77,7 @@ namespace TourHub.Controllers
                 TotalSeat = tourFormViewModel.TotalSeat
             };
             _tourRepository.Add(tour);
-            _dbContext.SaveChanges();
+            _unitOfWork.Complete();
             return RedirectToAction("Mine", "Tour");
         }
         //Update 
@@ -108,7 +111,7 @@ namespace TourHub.Controllers
             //tour.GenreID = tourFormViewModel.Genre;
 
             //update data
-            _dbContext.SaveChanges();
+            _unitOfWork.Complete();
             return RedirectToAction("Mine", "Tour");
         }
 
