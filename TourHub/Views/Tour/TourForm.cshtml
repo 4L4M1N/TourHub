@@ -3,12 +3,12 @@
     ViewBag.Title = Model.Heading;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row">
-    <div class="col-md-8">
+<div class="row pt-3">
+    <div class="col-md-8"id="tourform">
         
     </div>
     <div class="col-md-4">
-        <div class="card shadow p-3 mb-5 bg-white rounded">
+        <div class="card shadow p-3 bg-white rounded">
             <div class="card-header">
                 @Model.Heading
             </div>
@@ -50,7 +50,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(m => m.Genre)
-                        @Html.DropDownListFor(m => m.Genre, new SelectList(Model.Genres, "id", "name"), " ", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.Genre, new SelectList(Model.Genres, "id", "name"), "Select One", new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Genre)
                     </div>
                     {
