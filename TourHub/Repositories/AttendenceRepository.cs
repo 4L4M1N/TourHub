@@ -6,7 +6,7 @@ using TourHub.Models;
 
 namespace TourHub.Repositories
 {
-    public class AttendenceRepository
+    public class AttendenceRepository : IAttendenceRepository
     {
 
         private readonly ApplicationDbContext _context;
@@ -24,6 +24,10 @@ namespace TourHub.Repositories
         {
             return _context.Attendences
                 .SingleOrDefault(a => a.TourId == tourId && a.AttendeeId == userId);
+        }
+        public int GetTotal(int id)
+        {
+            return _context.Attendences.Where(g => g.TourId == id).Count();
         }
     }
 }

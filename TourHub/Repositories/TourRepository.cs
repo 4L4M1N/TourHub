@@ -7,12 +7,19 @@ using TourHub.Models;
 
 namespace TourHub.Repositories
 {
-    public class TourRepository
+    public class TourRepository : ITourRepository
     {
         private readonly ApplicationDbContext _context;
         public TourRepository(ApplicationDbContext context)
         {
             _context = context;
+        }
+        public Tour GetTour(int tourId)
+        {
+            return _context.Tours
+                .Include(t => t.Traveller)
+                .Include(g => g.Genre)
+                .SingleOrDefault(t => t.Id == tourId);
         }
         public Tour GetTourWithAttendees(int tourId)
         {

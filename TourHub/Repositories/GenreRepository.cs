@@ -6,7 +6,7 @@ using TourHub.Models;
 
 namespace TourHub.Repositories
 {
-    public class GenreRepository
+    public class GenreRepository : IGenreRepository
     {
         private readonly ApplicationDbContext _context;
         public GenreRepository(ApplicationDbContext context)

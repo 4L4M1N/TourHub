@@ -15,12 +15,12 @@ namespace TourHub.Controllers
     public class TourController : Controller
     {
         // GET: Tour
-        private readonly ApplicationDbContext _dbContext;
-        private readonly UnitOfWork _unitOfWork;
+        
+        private readonly IUnitOfWork _unitOfWork;
         public TourController()
         {
-            _dbContext = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_dbContext);
+            //_dbContext = new ApplicationDbContext();
+            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
         }
         [Authorize]
         public ActionResult Create()
@@ -28,7 +28,7 @@ namespace TourHub.Controllers
             var viewModel = new TourFormViewModel
             {
                 Heading = "Create a Tour Event",
-                Genres = _dbContext.Genres.ToList()
+                Genres = _unitOfWork.Genres.GetGenre()
             };
 
             return View("TourForm", viewModel);
@@ -36,10 +36,10 @@ namespace TourHub.Controllers
         public ActionResult Edit(int id)
         {
             var userId = User.Identity.GetUserId();
-            var tour = _dbContext.Tours.Single(t => t.Id == id && t.TravellerID == userId);
+            var tour = _unitOfWork.Tours.GetTour(id);
             var viewModel = new TourFormViewModel
             {
-                Genres = _dbContext.Genres.ToList(),
+                Genres = _unitOfWork.Genres.GetGenre(),
                 Id = id,
                 Date = tour.DateTime.ToString("d MMM yyyy"),
                 Time = tour.DateTime.ToString("HH:mm"),
@@ -58,7 +58,7 @@ namespace TourHub.Controllers
         {
             if (!ModelState.IsValid)
             {
-                tourFormViewModel.Genres = _dbContext.Genres.ToList();
+                tourFormViewModel.Genres = _unitOfWork.Genres.GetGenre();
                 return View("TourForm", tourFormViewModel);
             }
             var tour = new Tour
@@ -173,7 +173,7 @@ namespace TourHub.Controllers
             var viewModel = new TourDetailsViewModel
             {
                 Tour = tour,
-                Going = _dbContext.Attendences.Where(t => t.TourId == id).Count()
+                Going = _unitOfWork.Attendences.GetTotal(id)
             };
             if (User.Identity.IsAuthenticated)
             {

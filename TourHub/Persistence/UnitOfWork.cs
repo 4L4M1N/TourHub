@@ -7,13 +7,13 @@ using TourHub.Repositories;
 
 namespace TourHub.Persistence
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        public TourRepository Tours { get; private set; }
-        public AttendenceRepository Attendences { get; private set; }
-        public FollowingRepository Followings { get; private set; }
-        public GenreRepository Genres { get; set; }
+        public ITourRepository Tours { get; private set; }
+        public IAttendenceRepository Attendences { get; private set; }
+        public IFollowingRepository Followings { get; private set; }
+        public IGenreRepository Genres { get; set; }
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
