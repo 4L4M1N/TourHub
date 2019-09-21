@@ -17,10 +17,10 @@ namespace TourHub.Controllers
         // GET: Tour
         
         private readonly IUnitOfWork _unitOfWork;
-        public TourController()
+        public TourController(IUnitOfWork unitOfWork)
         {
             //_dbContext = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            _unitOfWork = unitOfWork;
         }
         [Authorize]
         public ActionResult Create()

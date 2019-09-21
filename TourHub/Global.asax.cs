@@ -7,6 +7,7 @@ using System.Web.Http;
 using TourHub.App_Start;
 using AutoMapper;
 
+
 namespace TourHub
 {
     public class MvcApplication : System.Web.HttpApplication
