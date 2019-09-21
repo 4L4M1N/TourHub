@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Http;
-using TourHub.DTOs;
-using TourHub.Models;
+using TourHub.Core.DTOs;
+using TourHub.Core.Models;
+using TourHub.Persistence;
 
 namespace TourHub.Controllers.Api
 {

@@ -5,10 +5,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TourHub.Models;
+using TourHub.Core;
+using TourHub.Core.Models;
+using TourHub.Core.ViewModels;
 using TourHub.Persistence;
-using TourHub.Repositories;
-using TourHub.ViewModels;
 
 namespace TourHub.Controllers
 {

@@ -6,7 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using TourHub.Models;
+using TourHub.Core.Models;
+using TourHub.Persistence;
 
 namespace TourHub.Controllers.Api
 {

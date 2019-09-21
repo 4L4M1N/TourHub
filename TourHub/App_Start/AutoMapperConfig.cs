@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TourHub.DTOs;
-using TourHub.Models;
+using TourHub.Core.DTOs;
+using TourHub.Core.Models;
 
 namespace TourHub.App_Start
 {

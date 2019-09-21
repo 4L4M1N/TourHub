@@ -5,7 +5,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using TourHub.Models;
+using TourHub.Core.Models;
+using TourHub.Persistence;
 
 namespace TourHub
 {

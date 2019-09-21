@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TourHub.Models;
-using TourHub.Repositories;
+using TourHub.Core;
+using TourHub.Core.Models;
+using TourHub.Core.Repositories;
+using TourHub.Persistence.Repositories;
 
 namespace TourHub.Persistence
 {

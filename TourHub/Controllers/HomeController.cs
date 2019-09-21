@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TourHub.Models;
-using TourHub.ViewModels;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
+using TourHub.Core.Models;
+using TourHub.Persistence;
 
 namespace TourHub.Controllers
 {
