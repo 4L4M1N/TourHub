@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using TourHub.Core.Models;
+using TourHub.Persistence.Entity_Configurations;
 
 namespace TourHub.Persistence
 {
@@ -25,25 +26,14 @@ namespace TourHub.Persistence
             }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Attendence>()
-                .HasRequired(a => a.Tour)
-                .WithMany(t => t.Attendences)
-                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany(f => f.Followers)
-                .WithRequired(f => f.Followee) //Foreign key..Followers must have a Followee
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany(f => f.Followees)
-                .WithRequired(f => f.Follower)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UserNotification>()
-                .HasRequired(f => f.User)
-                .WithMany(n => n.UserNotifications)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Configurations.Add(new TourConfiguration());
+            modelBuilder.Configurations.Add(new NotificationConfiguration());
+            modelBuilder.Configurations.Add(new AttendenceConfiguration());
+            modelBuilder.Configurations.Add(new FollowingConfiguration());
+            modelBuilder.Configurations.Add(new UserNotificationConfiguration());
+            modelBuilder.Configurations.Add(new ApplicationUserConfiguration());
+            modelBuilder.Configurations.Add(new GenreConfiguration());
 
             base.OnModelCreating(modelBuilder);
 

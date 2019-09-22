@@ -11,7 +11,6 @@ namespace TourHub.Core.Models
         public DateTime? OrginalDateTime { get; private set; }
         public string OrginalPlace { get; private set; }
 
-        [Required]
         public Tour Tour { get; private set; }
         protected Notification()
         {
