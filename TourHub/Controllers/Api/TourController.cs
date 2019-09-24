@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TourHub.Core;
 using TourHub.Core.Models;
 using TourHub.Persistence;
 
@@ -15,7 +16,7 @@ namespace TourHub.Controllers.Api
     public class TourController : ApiController
     {
         private ApplicationDbContext _context;
-        public TourController()
+        public TourController(IUnitOfWork unitOfWork)
         {
             _context = new ApplicationDbContext();
         }
