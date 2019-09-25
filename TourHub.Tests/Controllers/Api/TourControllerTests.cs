@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Web.Http.Results;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TourHub.Controllers.Api;
 using TourHub.Core;
+using TourHub.Core.Repositories;
+using TourHub.Tests.Extentions;
+
+using  System.Xml.Linq;
 
 namespace TourHub.Tests.Controllers.Api
 {
@@ -15,24 +21,21 @@ namespace TourHub.Tests.Controllers.Api
 
         public TourControllerTests()
         {
-            var identity = new GenericIdentity("user@domain.com");
-            identity.AddClaim(
-                new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", "user@domain.com"));
-            identity.AddClaim(
-                new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", "1"));
-
-            var principal = new GenericPrincipal(identity, null);
-
             //MoQ  unit of work
-            var mockUoW = new Mock<IUnitOfWork>(); 
-
+            var mockRepository = new Mock<ITourRepository>();
+            var mockUoW = new Mock<IUnitOfWork>();
+            mockUoW.SetupGet(u => u.Tours).Returns(mockRepository.Object);
             _controller = new TourController(mockUoW.Object);
-            _controller.User = principal;
+            _controller.MockCurrentUser("1", "user@domain.com");
 
         }
         [TestMethod]
-        public void TestMethod1()
+        public void Cancel_NoTourWithGivenIdExists_ShouldReturnNotfound()
         {
+            var result = _controller.Cancel(1);
+
+            result.Should().BeOfType<NotFoundResult>();
+
         }
     }
 }

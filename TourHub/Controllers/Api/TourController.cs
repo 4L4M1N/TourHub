@@ -16,18 +16,22 @@ namespace TourHub.Controllers.Api
     public class TourController : ApiController
     {
         private ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
         public TourController(IUnitOfWork unitOfWork)
         {
             _context = new ApplicationDbContext();
+            _unitOfWork = unitOfWork;
         }
 
         [HttpDelete]
         public IHttpActionResult Cancel(int id)
         {
             var userId = User.Identity.GetUserId();
-            var tour = _context.Tours
-                .Include(a => a.Attendences.Select(b => b.Attendee))
-                .Single(t => t.Id == id && t.TravellerID == userId);
+            var tour = _unitOfWork.Tours.GetTourWithAttendees(id);
+
+            if (tour == null)
+                return NotFound();
+
             if (tour.IsCanceled)
                 return NotFound();
 
