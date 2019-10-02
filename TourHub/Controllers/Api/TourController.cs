@@ -34,6 +34,8 @@ namespace TourHub.Controllers.Api
 
             if (tour.IsCanceled)
                 return NotFound();
+            if (tour.TravellerID != userId)
+                return Unauthorized();
 
             tour.cancel();
 
